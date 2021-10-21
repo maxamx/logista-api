@@ -1,5 +1,6 @@
 package com.maxamx.logista.api.exceptionhandle;
 
+import com.maxamx.logista.domain.model.exception.ClienteException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -10,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -41,4 +43,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, error,headers, status, request);
     }
+
+
+    @ExceptionHandler(ClienteException.class)
+    public ResponseEntity<Object> handleClienteException(ClienteException cliex, WebRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setLocalDateTime(LocalDateTime.now());
+        error.setTitulo(cliex.getMessage());
+
+        return handleExceptionInternal(cliex,error,new HttpHeaders(),status,request);
+    }
+
+
+
 }

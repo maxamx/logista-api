@@ -2,6 +2,7 @@ package com.maxamx.logista.api.controller;
 
 import com.maxamx.logista.domain.model.Cliente;
 import com.maxamx.logista.domain.model.repository.ClienteRepository;
+import com.maxamx.logista.domain.model.service.ClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ public class ClienteController {
 
     private ClienteRepository clienteRepository;
 
+    private ClienteService clienteService;
+
     @GetMapping()
     public List<Cliente> listar(){
         return clienteRepository.findAll();
@@ -38,7 +41,7 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente){
-        return clienteRepository.save(cliente);
+        return clienteService.salvar(cliente);
     }
 
     @PutMapping("/{clienteId}")
@@ -47,7 +50,7 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
         cliente.setId(clienteId);
-        cliente = clienteRepository.save(cliente);
+        cliente = clienteService.salvar(cliente);
         return ResponseEntity.ok(cliente);
     }
 
@@ -56,7 +59,7 @@ public class ClienteController {
         if (!clienteRepository.existsById(clienteId)){
            return ResponseEntity.notFound().build();
         }
-        clienteRepository.deleteById(clienteId);
+        clienteService.excluir(clienteId);
         return ResponseEntity.noContent().build();
 
     }
