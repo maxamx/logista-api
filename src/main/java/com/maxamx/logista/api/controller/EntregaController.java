@@ -1,11 +1,12 @@
 package com.maxamx.logista.api.controller;
 
-import com.maxamx.logista.api.model.dto.EntregaDTO;
+import com.maxamx.logista.api.dto.EntregaDTO;
+import com.maxamx.logista.api.dto.input.EntregaInputDTO;
 import com.maxamx.logista.domain.model.Entrega;
 import com.maxamx.logista.domain.model.repository.EntregaRepository;
 import com.maxamx.logista.domain.model.service.SolicitacaoEntregaService;
+import com.maxamx.logista.mapper.EntregaMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,27 +19,25 @@ import java.util.List;
 public class EntregaController {
     private SolicitacaoEntregaService solicitacaoEntregaService;
     private EntregaRepository entregaRepository;
+    private EntregaMapper entregaMapper;
 
 
 
     @PostMapping
-    public Entrega solicitar(@Valid @RequestBody Entrega entrega){
-        return solicitacaoEntregaService.solicitar(entrega);
+    public Entrega solicitar(@Valid @RequestBody EntregaInputDTO entregaInputDTO){
+        Entrega novaEntrega = entregaMapper.toEntity(entregaInputDTO);
+        return solicitacaoEntregaService.solicitar(novaEntrega);
     }
 
     @GetMapping
-    public List<Entrega> listar(){
-        return entregaRepository.findAll();
+    public List<EntregaDTO> listar(){
+        return entregaMapper.toCollectionDTO(entregaRepository.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EntregaDTO> buscar(@PathVariable Long id){
         return entregaRepository.findById(id)
-                .map(entrega -> {
-                    EntregaDTO entregaDTO = new EntregaDTO();
-                    entregaDTO.setId(entrega.getId());
-                    return ResponseEntity.ok(entregaDTO);
-                })
+                .map(entrega->ResponseEntity.ok(entregaMapper.toDTO(entrega)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }

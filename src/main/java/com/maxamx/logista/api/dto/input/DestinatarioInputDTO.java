@@ -1,14 +1,21 @@
-package com.maxamx.logista.api.model.dto;
+package com.maxamx.logista.api.dto.input;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
-public class DestinatarioDTO {
+public class DestinatarioInputDTO {
+    @NotBlank
     private String nome;
+    @NotBlank
     private String logradouro;
+    @NotBlank
     private String numero;
+    @NotBlank
     private String complemento;
+    @NotBlank
     private String bairro;
 }
