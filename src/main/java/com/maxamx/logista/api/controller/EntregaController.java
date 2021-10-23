@@ -1,5 +1,6 @@
 package com.maxamx.logista.api.controller;
 
+import com.maxamx.logista.api.model.dto.EntregaDTO;
 import com.maxamx.logista.domain.model.Entrega;
 import com.maxamx.logista.domain.model.repository.EntregaRepository;
 import com.maxamx.logista.domain.model.service.SolicitacaoEntregaService;
@@ -31,9 +32,13 @@ public class EntregaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Entrega> buscar(@PathVariable Long id){
+    public ResponseEntity<EntregaDTO> buscar(@PathVariable Long id){
         return entregaRepository.findById(id)
-                .map(ResponseEntity::ok)
+                .map(entrega -> {
+                    EntregaDTO entregaDTO = new EntregaDTO();
+                    entregaDTO.setId(entrega.getId());
+                    return ResponseEntity.ok(entregaDTO);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 }
