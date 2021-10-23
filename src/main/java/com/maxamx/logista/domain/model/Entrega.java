@@ -1,6 +1,7 @@
 package com.maxamx.logista.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxamx.logista.api.funcionalinterface.ValidationGroups;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -24,6 +27,7 @@ public class Entrega {
     private Long id;
 
     @Valid
+    @ConvertGroup(from = Default.class, to= ValidationGroups.ClienteId.class)
     @NotNull
     @ManyToOne
     private Cliente cliente;
