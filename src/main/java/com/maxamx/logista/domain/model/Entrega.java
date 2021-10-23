@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
@@ -32,7 +33,9 @@ public class Entrega {
     @ManyToOne
     private Cliente cliente;
 
+    @Valid
     @Embedded
+    @NotNull
     private Destinatario destinatario;
 
     @NotNull
