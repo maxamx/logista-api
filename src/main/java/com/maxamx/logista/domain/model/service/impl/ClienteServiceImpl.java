@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -32,5 +33,11 @@ public class ClienteServiceImpl implements ClienteService {
     @Transactional
     public void excluir(Long id) {
         clienteRepository.deleteById(id);
+    }
+
+    @Override
+    public Cliente buscar(Long id){
+        return clienteRepository.findById(id)
+                .orElseThrow(()-> new ClienteException("Cliente não encontrado"));
     }
 }

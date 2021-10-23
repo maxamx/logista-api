@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name="cliente")
 public class Cliente {
 
     @Id
