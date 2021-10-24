@@ -2,6 +2,7 @@ package com.maxamx.logista.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxamx.logista.api.funcionalinterface.ValidationGroups;
+import com.maxamx.logista.domain.model.exception.EntregaException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,5 +59,13 @@ public class Entrega {
         this.getOcorrencias().add(ocorrencia);
 
         return ocorrencia;
+    }
+
+    public void finalizar() {
+        if(!StatusEntrega.PENDENTE.equals(getStatus())){
+            throw new EntregaException("Entrega não pode ser finalizada");
+        }
+        setStatus(StatusEntrega.FINALIZADA);
+        setDataFinalizacao(OffsetDateTime.now());
     }
 }
