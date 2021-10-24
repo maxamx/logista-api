@@ -1,6 +1,7 @@
 package com.maxamx.logista.api.exceptionhandle;
 
 import com.maxamx.logista.domain.model.exception.ClienteException;
+import com.maxamx.logista.domain.model.exception.EntregaException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +56,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         error.setTitulo(cliex.getMessage());
 
         return handleExceptionInternal(cliex,error,new HttpHeaders(),status,request);
+    }
+
+    @ExceptionHandler(EntregaException.class)
+    public ResponseEntity<Object> handleEntregaException(EntregaException entregaex, WebRequest request){
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setLocalDateTime(OffsetDateTime.now());
+        error.setTitulo(entregaex.getMessage());
+
+        return handleExceptionInternal(entregaex,error,new HttpHeaders(),status,request);
     }
 
 

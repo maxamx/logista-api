@@ -1,4 +1,4 @@
-package com.maxamx.logista.api.dto;
+package com.maxamx.logista.api.dto.output;
 
 import com.maxamx.logista.domain.model.StatusEntrega;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-public class EntregaDTO {
+public class EntregaOutputDTO {
     private Long id;
-    private ClienteDTO cliente;
+    private ClienteOutputDTO cliente;
     private BigDecimal taxa;
     private StatusEntrega status;
     private OffsetDateTime dataPedido;
     private OffsetDateTime dataFinalizacao;
-    private DestinatarioDTO destinatario;
+    private DestinatarioOutputDTO destinatario;
 }

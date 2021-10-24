@@ -1,6 +1,6 @@
 package com.maxamx.logista.api.controller;
 
-import com.maxamx.logista.api.dto.EntregaDTO;
+import com.maxamx.logista.api.dto.output.EntregaOutputDTO;
 import com.maxamx.logista.api.dto.input.EntregaInputDTO;
 import com.maxamx.logista.domain.model.Entrega;
 import com.maxamx.logista.domain.model.repository.EntregaRepository;
@@ -30,12 +30,12 @@ public class EntregaController {
     }
 
     @GetMapping
-    public List<EntregaDTO> listar(){
+    public List<EntregaOutputDTO> listar(){
         return entregaMapper.toCollectionDTO(entregaRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntregaDTO> buscar(@PathVariable Long id){
+    public ResponseEntity<EntregaOutputDTO> buscar(@PathVariable Long id){
         return entregaRepository.findById(id)
                 .map(entrega->ResponseEntity.ok(entregaMapper.toDTO(entrega)))
                 .orElse(ResponseEntity.notFound().build());
