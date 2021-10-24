@@ -1,0 +1,15 @@
+package com.maxamx.logista.domain.model.repository;
+
+import com.maxamx.logista.domain.model.Cliente;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface ClienteRepository extends JpaRepository<Cliente,Long> {
+
+    List<Cliente> findByNome(String nome);
+    List<Cliente> findByNomeContaining(String nome);
+    List<Cliente> findByEmail(String email);
+}
