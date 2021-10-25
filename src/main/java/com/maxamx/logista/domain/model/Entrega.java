@@ -62,10 +62,17 @@ public class Entrega {
     }
 
     public void finalizar() {
-        if(!StatusEntrega.PENDENTE.equals(getStatus())){
+        if(naoPodeSerFinalizada()){
             throw new EntregaException("Entrega não pode ser finalizada");
         }
         setStatus(StatusEntrega.FINALIZADA);
         setDataFinalizacao(OffsetDateTime.now());
+    }
+
+    boolean podeSerFinalizada(){
+        return StatusEntrega.PENDENTE.equals(getStatus());
+    }
+    boolean naoPodeSerFinalizada(){
+        return !podeSerFinalizada();
     }
 }

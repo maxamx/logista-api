@@ -4,9 +4,11 @@ import com.maxamx.logista.api.dto.output.EntregaOutputDTO;
 import com.maxamx.logista.api.dto.input.EntregaInputDTO;
 import com.maxamx.logista.domain.model.Entrega;
 import com.maxamx.logista.domain.model.repository.EntregaRepository;
+import com.maxamx.logista.domain.model.service.FinalizacaoEntregaService;
 import com.maxamx.logista.domain.model.service.SolicitacaoEntregaService;
 import com.maxamx.logista.mapper.EntregaMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ public class EntregaController {
     private SolicitacaoEntregaService solicitacaoEntregaService;
     private EntregaRepository entregaRepository;
     private EntregaMapper entregaMapper;
+    private FinalizacaoEntregaService finalizacaoEntregaService;
 
 
 
@@ -39,5 +42,11 @@ public class EntregaController {
         return entregaRepository.findById(id)
                 .map(entrega->ResponseEntity.ok(entregaMapper.toDTO(entrega)))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{entregaId}/finalizacao")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void finalizar(@PathVariable Long entregaId){
+        finalizacaoEntregaService.finalizar(entregaId);
     }
 }
